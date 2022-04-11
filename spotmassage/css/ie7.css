@@ -1,0 +1,5 @@
+#wrapper-main-menu { top: -28px; }
+.gform_wrapper .gf-form-needq .top_label li.gfield.gf_right_half textarea { height: 79px; }
+.gf-form-needq .gfield select { height: auto; }
+.tmpl-raw .modal-job { width: 220px; }
+.div-disabled { position: fixed;width: 100%;height: 100%; }
