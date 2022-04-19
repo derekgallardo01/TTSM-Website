@@ -1,5 +1,7 @@
 <?php 
-
+/*
+Template Name: Template for edit location
+*/
 
 if(current_user_can('van_user')) {
     get_header('2');
@@ -63,7 +65,7 @@ if ( in_array( 'van_user', $user_roles, true ) || $usrid == 136343 ||  $usrid ==
     </tr>
 <?php
 
-if(isset($_GET["gg"]) || 1){
+if(isset($_GET["gg"]) ){
     
    /* error_reporting(E_ALL);
     ini_set('display_errors',1);*/
