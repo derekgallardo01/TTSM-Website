@@ -1191,6 +1191,10 @@ li#field_2_30, li#field_11_30 {
 
 @media only screen and (min-width: 360px) and (max-width: 767px) { 
 
+  table.sticky-list, table.sticky-list * {
+    display:  inline-grid;
+  }
+
   #content .btn {
     padding: 15px;
   }
