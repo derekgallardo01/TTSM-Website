@@ -36,9 +36,7 @@ Template Name: Event listing
     $usrid = ( isset( $user->ID ) ? (int) $user->ID : 0 );			
     $content_class = 'full-width'; 
 
-?>            
 
-<?php
 // Get all the user roles as an array.
 
 $user_roles = $user->roles;
@@ -78,7 +76,9 @@ if(isset($_GET["gg"]) || 1){
 
     }
     $adm_jobs = new Admin_Jobs();
-    $locations = $adm_jobs->get_available_locations_user(get_current_user_id(),$date);
+    //get_available_locations_user
+    
+    $locations = $adm_jobs->get_available_locations_created(get_current_user_id(),$date);
    
     foreach($locations as $location_data){
         //echo '<pre>';
@@ -93,7 +93,7 @@ if(isset($_GET["gg"]) || 1){
             <td class="sort-4  sticky-nowrap stickylist-date"><?php echo $location_data->month?>/<?php echo $location_data->day?>/<?php echo $location_data->year?> </td>
             <td class="sort-5  sticky-nowrap stickylist-text"><?php echo $location_data->stime; ?> </td>
             <td class="sort-6  sticky-nowrap stickylist-text"><?php echo $location_data->etime; ?></td>
-            <td class="sticky-action"><a href="/edit_location?location_id=<?php echo $location_data->id; ?>" > Edit </a> </td>
+            <td class="sticky-action"><a href="/edit_location?location_id=<?php echo $location_data->ID; ?>" > Edit </a> </td>
                                                 
         
         </tr>

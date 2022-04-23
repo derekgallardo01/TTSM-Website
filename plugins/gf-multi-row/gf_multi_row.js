@@ -405,15 +405,13 @@ function gfAddRowFields(_this, values) {
         var text_remove_location = texts[1].text();
         
         //var _actions = '<li class="gfrow'+gf_rows+' gfield gfield_html gfield_html_formatted gfield_no_follows_desc"><a href="javascript:void(0);" onclick="gfAddRow(this);">'+text_add_location+'</a> <a href="javascript:void(0);" onclick="gfRemoveRow(\'gfrow'+gf_rows+'\')">'+text_remove_location+'</a></li>';
-        _actions ='<li class="gfrow'+gf_rows+' '+_actions_class+'">' +
-                  '<a href="javascript:void(0);" onclick="gfAddRow(this);">'+text_add_location+'</a> | ' +
-                  '<a href="javascript:void(0);" onclick="gfRemoveRow(\'gfrow'+gf_rows+'\')">'+text_remove_location+'</a></li>';
         
-        gf_finish_object.after(_actions);
+        
         
         var _val;
         var refresh = [];
         var num_mselect = 0;
+        var last_li = '';
         for(var i = _base_fields.length-1; i >= 0; i--) {
         //for(var i = 0; i < _base_fields.length; i++) {
             
@@ -424,7 +422,9 @@ function gfAddRowFields(_this, values) {
             //_li = jQuery('<li>').addClass('gfield gplaceholder hide-label '+clas+' gfield_contains_required');
             
             _li = jQuery('<li>').addClass(_field.atrclass);
-            
+            if(last_li==''){
+                last_li = _li;
+            }
             _id_new_field = 'gfref_'+gf_rows+'_'+(i+1);
             
             _val = (values == null) ? '' : values[_id_new_field];
@@ -437,6 +437,11 @@ function gfAddRowFields(_this, values) {
             
             if(_field.type == 'input') {
                 _new_entry = jQuery('<input>').attr('type','text').attr('name', _field.name+'_'+gf_rows+'_'+i).attr('placeholder', _field.placeholder).addClass('medium gfield_select').val(_val);
+                console.log(_field);
+                //alert(jQuery(_field).html());
+                if( _field.atrclass.indexOf('time') !== -1){
+                   // _new_entry.addClass(' hasDatepicker ');
+                }
                 _new_entry.attr('ref_to', _id_new_field);
                 _new_entry.on('change',change_entry).bind('change', sm_change_dropdown);
                 _div.append(_new_entry);
@@ -528,14 +533,31 @@ function gfAddRowFields(_this, values) {
             _li.addClass('gfrow'+gf_rows);
             if(typeof(_field.label) == 'object' && _field.type!='checkbox') {
                 var _label = jQuery('<label class="'+_field.label.clases+'">').text(_field.label.text);
+                console.log("field classes"+_field.atrclass);
+                if(_field.atrclass.indexOf('gfield_contains_required') !== -1){
+                    _label.append('<span class="gfield_required">*</span>');
+                }
                 _li.append(_label);
             }
             _li.append(_div);
             _li.insertAfter(gf_finish_object);
             //_li.insertBefore(gf_finish_object);
+
+            
         }
         
-        _li.before('<li class="separator gfrow'+gf_rows+'"></li>');
+        
+        var new_sep = jQuery('<li class="separator gfrow'+gf_rows+'"></li>');
+        last_li.after(new_sep);
+
+        _actions ='<li class="gfrow'+gf_rows+' '+_actions_class+'">' +
+                  '<a href="javascript:void(0);" onclick="gfAddRow(this);">'+text_add_location+'</a> | ' +
+                  '<a href="javascript:void(0);" onclick="gfRemoveRow(\'gfrow'+gf_rows+'\')">'+text_remove_location+'</a></li>';
+        
+        //gf_finish_object.after(_actions);
+        last_li.after(_actions);
+        
+        gf_finish_object = new_sep;
         _tbody = jQuery('.gf_multi_row_reference .gfield_list tbody');
         if(gf_rows == 1 && _this !== null) {
             jQuery(_this).parent().parent().hide();
@@ -546,10 +568,31 @@ function gfAddRowFields(_this, values) {
         if( gf_rows-gf_removes > 0) {
             jQuery('.gf_actions').hide();
         }
-        
+        //hasDatepicker
         for(var pos in refresh) {
             jQuery('select[ref_to="'+refresh[pos]+'"]').trigger('change');
         }
+        jQuery('.ahh_start_time input').timepicker({
+            interval: 30,
+            /*minTime: '8:00 am',
+            maxTime: '11:30 pm',
+            startTime: '8:00 am',*/
+            timeFormat: 'h:mm tt',
+            dynamic: true,
+            //dropdown: true,
+            //scrollbar: true
+          });
+        
+          jQuery('.ahh_end_time input').timepicker({
+            interval: 30,
+            /*minTime: '8:00 am',
+            maxTime: '11:30 pm',
+            startTime: '8:00 am',*/
+            timeFormat: 'h:mm tt',
+            dynamic: true,
+            //dropdown: true,
+            //scrollbar: true
+          });
         changeDropdownMonth('gfield_date_dropdown_month');
     }
 }
