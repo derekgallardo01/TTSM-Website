@@ -1859,15 +1859,15 @@ table.sticky-list th.sticky-action, table.sticky-list td.sticky-action {
   font-family: 'Lato', sans-serif !important;
 }
 
+
 td.sticky-action {
-  background-color: #ff4b00db;
+  background-color: #ff7100e8;
   padding-top: 21px;
   padding-bottom: 14px;
   padding-left: 8px;
   padding-right: 8px;  
 
 }
-
 
 td.sticky-action a {
   color: white;
