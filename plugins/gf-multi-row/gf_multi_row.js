@@ -439,8 +439,8 @@ function gfAddRowFields(_this, values) {
                 _new_entry = jQuery('<input>').attr('type','text').attr('name', _field.name+'_'+gf_rows+'_'+i).attr('placeholder', _field.placeholder).addClass('medium gfield_select').val(_val);
                 console.log(_field);
                 //alert(jQuery(_field).html());
-                if( _field.atrclass.indexOf('time') !== -1){
-                   // _new_entry.addClass(' hasDatepicker ');
+                if( _field.atrclass.indexOf('gf_event_date_times') !== -1){
+                    //_new_entry.addClass(' hasDatepicker ');
                 }
                 _new_entry.attr('ref_to', _id_new_field);
                 _new_entry.on('change',change_entry).bind('change', sm_change_dropdown);
@@ -593,6 +593,8 @@ function gfAddRowFields(_this, values) {
             //dropdown: true,
             //scrollbar: true
           });
+          jQuery(".gf_event_date_times input").datepicker();
+          
         changeDropdownMonth('gfield_date_dropdown_month');
     }
 }
