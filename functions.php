@@ -676,3 +676,10 @@ function pre_submission_handler( $form ) {
 	
     //$_POST['input_14'] = 'new value for field 14';
 }
+
+function disable_tml_registration( $action ) {
+    if ( 'register' == $action ) {
+        tml_unregister_action( $action );
+    }
+}
+add_action( 'tml_registered_action', 'disable_tml_registration' );
