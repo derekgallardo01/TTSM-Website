@@ -17,112 +17,157 @@ $wclass = $active_sidebar_left ? 'wrapper-sleft': '';
 $content_id= $active_van_user ? "wrapper-content-2" : 'wrapper-content';
 
 ?>
+<style>
 
+</style>
 <?php
 /*
 Template Name: Event listing
 */$url = Theme_My_Login::get_page_link('login');$permalink_structure = get_option('permalink_structure', '');if(!is_user_logged_in()) {    $url_login = empty($permalink_structure) ? $url.'&redirect_to='.curPageURL() : $url.'?redirect_to='.curPageURL();    wp_redirect($url_login);} $active_sidebar_left = is_active_sidebar('sidebar-left-user');$content_class = $active_sidebar_left ? 'content-width' : 'full-width';$wclass = $active_sidebar_left ? 'wrapper-sleft': ''; ?>    
-<div id="wrapper-content-2" class="<?php echo $wclass; ?>"> <div class="second-wrapper">        <div class="total-width">                        <?php if($active_sidebar_left && !$active_van_user): ?>
-    <div id="sidebar-left-therapist" class="sidebar sidebar-left">
-        <?php dynamic_sidebar('sidebar-left-user'); ?>
-    </div>
-    <?php endif; ?>
+<div id="wrapper-content-2" class="<?php echo $wclass; ?>"> 
+
+<div class="second-wrapper">   <!-- lavel 4 -->      
+    <div class="total-width"> <!-- lavel 3 -->                      
+        <?php if($active_sidebar_left && !$active_van_user): ?>
+            <div id="sidebar-left-therapist" class="sidebar sidebar-left">
+                <?php dynamic_sidebar('sidebar-left-user'); ?>
+            </div>
+        <?php endif; ?>
         <?php if($active_sidebar_left && $active_van_user): ?>
-    <div id="sidebar-left-therapist" class="sidebar sidebar-left">
-        <?php dynamic_sidebar('sidebar-left-van-user'); ?>
-    </div>
-    <?php endif; ?><h3 class="title-content" style="padding-top:30px;"><?php the_title(); ?></h3>            
-    <div id="content" class="<?php echo apply_filters('sm_class_content', $content_class); ?> content-right">			
-    <?php			
-    $user = wp_get_current_user();			
-    $usrid = ( isset( $user->ID ) ? (int) $user->ID : 0 );			
-    $content_class = 'full-width'; 
+            <div id="sidebar-left-therapist" class="sidebar sidebar-left">
+                <?php dynamic_sidebar('sidebar-left-van-user'); ?>
+            </div>
+        <?php endif; ?>
+        <h3 class="title-content" style="padding-top:30px;"><?php the_title(); ?></h3>       
 
-?>            
+    <div id="content" class="<?php echo apply_filters('sm_class_content', $content_class); ?> content-right">	<!-- lavel 2 -->
 
-<?php
-// Get all the user roles as an array.
-
-$user_roles = $user->roles;
-
-// Check if the role you're interested in, is present in the array.
-if ( in_array( 'van_user', $user_roles, true ) || $usrid == 136343 ||  $usrid == 136344 ||  $usrid == 65263 ||  $usrid == 64380)  {
-    // Do something.
-?>
-<div class="post-content">
-
-<table class="sticky-list">
-
-    <tr>
-        <th class="sort header-company" data-sort="sort-0">Company</th>
-        <th class="sort header-onsite-contact-name" data-sort="sort-1">Onsite Contact Name</th>
-        <th class="sort header-phone-number" data-sort="sort-2">Phone Number</th>
-        <th class="sort header-email" data-sort="sort-3">Email</th>
-        <th class="sort header-event-date" data-sort="sort-4">Event Date</th>
-        <th class="sort header-start-time" data-sort="sort-5">Start Time</th>
-        <th class="sort header-end-time" data-sort="sort-6">End Time</th>
-        <th class="sticky-action">Edit</th>
-    </tr>
-<?php
-
-if(isset($_GET["gg"]) ){
-    
-   /* error_reporting(E_ALL);
-    ini_set('display_errors',1);*/
-
-    $date = null;
-
-    if( !empty($_REQUEST['search']) && is_array($_REQUEST['search']) && !empty($_REQUEST['search']['year']) ) {
-
-        $date = $_REQUEST['search']['year'].'{month}';
-
-        $date = str_replace('{month}',(!empty($_REQUEST['search']['month']) ? '-'.$_REQUEST['search']['month'] : ''),$date);
-
-    }
-    $adm_jobs = new Admin_Jobs();
-    $locations = $adm_jobs->get_available_locations_user(get_current_user_id(),$date);
-   
-    foreach($locations as $location_data){
-        //echo '<pre>';
-        //print_r($location_data);  die();
-        $loc_data = unserialize($location_data->data)
-    ?>
-        <tr>
-            <td class="sort-0  sticky-nowrap stickylist-text"><?php echo $loc_data[52]?></td>
-            <td class="sort-1  stickylist-text"><?php echo $loc_data[33]?> <?php echo $loc_data[49]?></td>
-            <td class="sort-2  sticky-nowrap stickylist-phone"><?php echo $loc_data[49]?></td>
-            <td class="sort-3  sticky-nowrap stickylist-email"><?php echo $loc_data[44]?></td>
-            <td class="sort-4  sticky-nowrap stickylist-date"><?php echo $location_data->month?>/<?php echo $location_data->day?>/<?php echo $location_data->year?> </td>
-            <td class="sort-5  sticky-nowrap stickylist-text"><?php echo $location_data->stime; ?> </td>
-            <td class="sort-6  sticky-nowrap stickylist-text"><?php echo $location_data->etime; ?></td>
-            <td class="sticky-action"><a href="/edit_location?location_id=<?php echo $location_data->id; ?>" > Edit </a> </td>
-                                                
+    <form method="post" name="" id="" >	
+        <?php			
+        $user = wp_get_current_user();			
+        $usrid = ( isset( $user->ID ) ? (int) $user->ID : 0 );			
+        $content_class = 'full-width'; 
+        global $wpdb;
+        $location_id = isset($_GET["location_id"])?$_GET["location_id"]:'';
         
-        </tr>
-    <?php  } ?>
-    </table>
+        $location_data =  $wpdb->get_row('SELECT d.*,l.lead_id,l.data,l.created_by,l.users_invited,l.accept_job,l.primary_location FROM '.$wpdb->prefix.AJ_Location::$tblLocation.' l LEFT JOIN '.$wpdb->prefix.AJ_Location::$tblDateLocation.' d ON l.ID=d.location_id WHERE l.ID='.$location_id.';');
+        
+        $loc_data = unserialize($location_data->data);
+        //print_r($loc_data);
+        //print_r($location_data);
+        
+            // Get all the user roles as an array.
+            $user_roles = $user->roles;
+            ?>
+            <div class="post-content"> <!-- lavel 1 -->
 
-    <?php 
+            <ul id="gform_fields_11" class="gform_fields top_label form_sublabel_below description_below">
+                <li id="field_11_4" class="gfield gsection start-job-info sm_tooltip field_sublabel_below field_description_below gfield_visibility_visible added-tooltip"><h2 class="gsection_title">Event Site/s Information</h2></li>
+                
+                <li id="field_11_52" class="gfield start_gf_multi_row gf_left_half field_sublabel_below field_description_below gfield_visibility_visible"><label class="gfield_label" for="input_11_52">Company Name</label><div class="ginput_container ginput_container_text"><input name="input_52" id="input_11_52" type="text" value="<?php echo $loc_data[52]; ?>" class="medium" aria-invalid="false"></div></li>
+                
+                <li id="field_11_33" class="gfield start_gf_multi_row gf_left_half field_sublabel_below field_description_below gfield_visibility_visible"><label class="gfield_label" for="input_11_33">On Site Contact Persons First Name</label><div class="ginput_container ginput_container_text"><input name="input_33" id="input_11_33" type="text" value="<?php echo $loc_data[33]; ?>" class="medium" aria-invalid="false"></div></li>
+                
+                <li id="field_11_49" class="gfield gf_right_half field_sublabel_below field_description_below gfield_visibility_visible"><label class="gfield_label" for="input_11_49">On Site Contact Persons Last Name</label><div class="ginput_container ginput_container_text"><input name="input_49" id="input_11_49" type="text" value="<?php echo $loc_data[59]; ?>" class="medium" aria-invalid="false"></div></li>
+                
+                <li id="field_11_34" class="gfield gf_left_half field_sublabel_below field_description_below gfield_visibility_visible"><label class="gfield_label" for="input_11_34">On Site Contact Persons Phone Number</label><div class="ginput_container ginput_container_phone"><input name="input_34" id="input_11_34" type="text" value="<?php echo $loc_data[34]; ?>" class="medium" aria-invalid="false"></div></li>
+                
+                <li id="field_11_44" class="gfield gf_right_half field_sublabel_below field_description_below gfield_visibility_visible"><label class="gfield_label" for="input_11_44">On Site Contact Persons Email</label><div class="ginput_container ginput_container_email">
+                <input name="input_44" id="input_11_44" type="text" value="<?php echo $loc_data[44]; ?>" class="medium" aria-invalid="false">
+                    </div>
+                </li>
+                    
+                <li id="field_11_7" class="gfield gf_left_half gfield_contains_required field_sublabel_below field_description_below gfield_visibility_visible"><label class="gfield_label" for="input_11_7">How many therapists do you need?<span class="gfield_required">*</span></label><div class="ginput_container ginput_container_select"><select name="input_7" id="input_11_7" class="medium gfield_select" aria-required="true" aria-invalid="false">
+                <option value="" selected="selected">Total # of Therapist for this location</option>
+                
+                <?php
+                for($t=0;$t<10;$t++){
+                    $selected = '';
+                    if($loc_data[7]==$t){
+                        $selected = 'selected="selected"';
+                    }
+                ?>
+                    <option value="<?php echo $t;?>" <?php echo $selected;?> ><?php echo $t;?></option>
+                <?php
+                }
+                ?>
+                
+                </select></div></li>
+                
+                <li id="field_11_28" class="gfield gf_right_half gfield_contains_required field_sublabel_below field_description_below gfield_visibility_visible">
+                    <label class="gfield_label" for="input_11_28">Time Zone<span class="gfield_required">*</span></label>
+                    <div class="ginput_container ginput_container_select">
+                        <select name="input_28" id="input_11_28" class="medium gfield_select" aria-required="true" aria-invalid="false">
+                            <option value=""  >Time Zone</option>
+                            <option value="Central Time Zone" <?php if($loc_data[28]=='Central Time Zone'){echo 'selected="selected"';}?>>Central Time Zone</option>
+                            <option value="Eastern Time Zone" <?php if($loc_data[28]=='Eastern Time Zone'){echo 'selected="selected"';}?>>Eastern Time Zone</option>
+                            <option value="Mountain Time Zone" <?php if($loc_data[28]=='Mountain Time Zone'){echo 'selected="selected"';}?>>Mountain Time Zone</option>
+                            <option value="Alaska Time Zone" <?php if($loc_data[28]=='Alaska Time Zone'){echo 'selected="selected"';}?>>Alaska Time Zone</option>
+                            <option value="Pacific Time Zone" <?php if($loc_data[28]=='Pacific Time Zone'){echo 'selected="selected"';}?>>Pacific Time Zone</option>
+                            <option value="Samoa Time Zone" <?php if($loc_data[28]=='Samoa Time Zone'){echo 'selected="selected"';}?>>Samoa Time Zone</option>
+                        </select>
+                    </div>
+                </li>
+                
+                <li id="field_11_30" class="gfield gf_right_half hours_field_hide field_sublabel_below field_description_below gfield_visibility_visible"><label class="gfield_label" for="input_11_30">Total numbers of massage hours at this location</label><div class="ginput_container ginput_container_select">
+                    
+                    <select name="input_30" id="input_11_30" class="medium gfield_select" aria-invalid="false">
+                    <option value="" selected="selected">Total # of massage hours for this location</option>
+                    <?php
+                    for($t=0;$t<10;$t++){
+                        $selected = '';
+                        if($loc_data[30]==$t){
+                            $selected = 'selected="selected"';
+                        }
+                    ?>
+                        <option value="<?php echo $t;?>" <?php echo $selected;?> ><?php echo $t;?></option>
+                    <?php
+                    }
+                    ?>
 
-}else{
-    echo do_shortcode('[stickylist id="11" user="' . $usrid . '"]');
-}
+                </select></div></li>
 
+            <li id="field_11_8" class="gfield gf_left_half gfield_contains_required field_sublabel_below field_description_below gfield_visibility_visible"><label class="gfield_label" for="input_11_8">Complete Address for Event Location<span class="gfield_required">*</span></label><div class="ginput_container ginput_container_text"><input name="input_8" id="input_11_8" type="text" value="<?php echo $loc_data[8]; ?>" class="medium" aria-required="true" aria-invalid="false"></div>
+            </li>
+            <li id="field_11_9" class="gfield gf_right2_half gfield_contains_required field_sublabel_below field_description_below gfield_visibility_visible"><label class="gfield_label" for="input_11_9">City<span class="gfield_required">*</span></label><div class="ginput_container ginput_container_text"><input name="input_9" id="input_11_9" type="text" value="<?php echo $loc_data[9]; ?>" class="medium" aria-required="true" aria-invalid="false"></div></li>
+            
+            <li id="field_11_10" class="gfield gf_right2_half gf_clearnone gfield_contains_required field_sublabel_below field_description_below gfield_visibility_visible">
+                <label class="gfield_label" for="input_11_10">State<span class="gfield_required">*</span></label><div class="ginput_container ginput_container_select">
+                <select name="input_10" id="input_11_10" class="medium gfield_select" aria-required="true" aria-invalid="false">
+                    <?php
+                    $state_array = array('Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming', 'Armed Forces Americas', 'Armed Forces Europe', 'Armed Forces Pacific' );
 
-?>
-    
-</div> 
-<?php
-}else{
-?>
-<div class="post-content">
+                    foreach($state_array as $state){
+                        $selected = '';
+                        if($loc_data[10]==$t){
+                            $selected = 'selected="selected"';
+                        }
+                    ?>
+                        <option value="<?php echo $state; ?>" <?php echo $selected;?> ><?php  echo $state; ?></option>
+                    <?php
+                    }
+                    ?>
+                </select>
+                
+                </div></li><li id="field_11_51" class="gfield gfield_contains_required field_sublabel_below field_description_below gfield_visibility_visible"><label class="gfield_label" for="input_11_51">Zip Code<span class="gfield_required">*</span></label><div class="ginput_container ginput_container_text"><input name="input_51" id="input_11_51" type="text" value="<?php echo $loc_data[51]; ?>" class="medium" aria-required="true" aria-invalid="false"></div></li>
+        
 
-    <?php echo do_shortcode('[stickylist id="2" user="' . $usrid . '"]'); ?></div> 
-<?php
-}
-?> 
+            <li class="gchoice_11_29_1"> <input type="submit" name="submit" id="submit" value="update" /> </li>
 
-</div>            <div class="clr"></div>        </div>    </div> </div>
+            </ul>
+
+                    
+            </div> <!-- end lavel 1 -->
+            </form>
+        </div>       <!-- end lavel 2 -->     
+
+        <div class="clr"></div>       
+
+    </div> <!-- end lavel 3 -->
+
+  </div> <!-- end lavel 4 -->
+
+</div>
 
 
 
