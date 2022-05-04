@@ -53,7 +53,9 @@ $location_data =  $wpdb->get_row('SELECT d.*,l.lead_id,l.data,l.created_by,l.use
 
 ?>
 <style>
-
+#gform_fields_11{
+    list-style: none;
+}
 </style>
 <?php
 
