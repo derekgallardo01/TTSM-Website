@@ -96,7 +96,7 @@ if(isset($_GET["gg"]) || 1){
             <td class="sort-4  sticky-nowrap stickylist-date"><?php echo $location_data->month?>/<?php echo $location_data->day?>/<?php echo $location_data->year?> </td>
             <td class="sort-5  sticky-nowrap stickylist-text"><?php echo $location_data->stime; ?> </td>
             <td class="sort-6  sticky-nowrap stickylist-text"><?php echo $location_data->etime; ?></td>
-            <td class="sticky-action"><a href="/edit-location?location_id=<?php echo $location_data->location_id; ?>" > Edit </a> </td>
+            <td class="sticky-action"><a href="/edit-location?location_id=<?php echo $location_data->location_id; ?>" > View/Edit </a> </td>
         </tr>
     <?php  } ?>
     </table>
