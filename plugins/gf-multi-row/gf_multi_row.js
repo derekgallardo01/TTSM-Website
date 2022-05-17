@@ -543,6 +543,7 @@ function gfAddRowFields(_this, values) {
             _li.insertAfter(gf_finish_object);
             //_li.insertBefore(gf_finish_object);
 
+            jQuery('input[name^="input_34"]').mask('(999) 999-9999').bind('keypress', function(e){if(e.which == 13){jQuery(this).blur();} } );
             
         }
         
@@ -595,7 +596,10 @@ function gfAddRowFields(_this, values) {
           });
           jQuery(".gf_event_date_times input").datepicker();
           
+
         changeDropdownMonth('gfield_date_dropdown_month');
+        
+
     }
 }
 
