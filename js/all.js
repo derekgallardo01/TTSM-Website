@@ -1,4 +1,9 @@
 jQuery(document).on('ready', sm_init_all);
+jQuery(document).on('focusin', function(e) {
+    if ( jQuery(e.target).closest(".mce-container, #wp-link-wrap").length ) {
+        e.stopImmediatePropagation();
+    }
+});
 var sidebars_home_max_height = 0;
 var _smIsIE7 = (document.all && !document.querySelector);
 var _smIsIE8 = (document.all && document.querySelector && !document.addEventListener);
