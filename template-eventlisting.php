@@ -57,7 +57,7 @@ if ( in_array( 'van_user', $user_roles, true ) || $usrid == 136343 ||  $usrid ==
         <th class="sort header-event-date" data-sort="sort-4">Event Date</th>
         <th class="sort header-start-time" data-sort="sort-5">Start Time</th>
         <th class="sort header-end-time" data-sort="sort-6">End Time</th>
-        <th class="sticky-action">Edit</th>
+        <th class="sticky-action">Actions</th>
     </tr>
 <?php
 
