@@ -98,6 +98,52 @@ if(isset($_GET["gg"]) || 1){
             <td class="sort-6  sticky-nowrap stickylist-text"><?php echo $location_data->etime; ?></td>
             <td class="sticky-action"><a href="/edit-location?location_id=<?php echo $location_data->location_id; ?>" > View</a> </td>
         </tr>
+        <tr>
+            <td colspan="8">
+            <!--<table border="0">
+                <tr>
+                <td><span class="nameheading"><b>Therapist Names</b></span></td>
+                <td><span class="nameheading"><b>Email Id</b></span></td>
+                <td><span class="nameheading"><b>Phone</b></span></td>
+                <td><span class="nameheading"><b>Invitation Status</b></span></td>
+                </tr>-->
+
+                <?php
+                $users_inviteds = maybe_unserialize($location_data->users_invited);
+                $status_accept = maybe_unserialize($location_data->accept_job);
+                //print_r($location_data);
+                if(!empty($users_inviteds)){
+                    foreach($users_inviteds as $id=>$therapist) {
+                        
+                        $user_info = get_userdata($id);
+                        //$user_info = $user_info_ob->data;
+                       // print_r($user_info);
+                        $user_email = isset($user_info->user_email)?$user_info->user_email:'';
+                        
+                        $phone  = get_user_meta($id, 'mobile_phone_number', true);
+                        //echo $therapist;
+                        //echo '<tr><td><span class="simpletext">'.str_replace('View address','',$therapist).'</span></td><td><span class="simpletext">' . $user_email . '</span></td><td><span class="simpletext">' . $phone . '</span></td><td>';
+                        
+                        if( isset($status_accept[$id]) ) {
+
+                            echo 'Accepted Therapist : '.str_replace('View address','',$therapist).'<br /> ';
+                            //echo '<span class="selectedstat">Accepted</span>';
+                        } else {
+                            //echo '<span class="simplestat">Pending</span>';
+                            
+                        }
+                        
+                        //echo '</td></tr>';
+                    }
+                }
+                                
+                ?>
+
+                <!--</table>-->	
+
+                </td>
+        </tr>
+
     <?php  } ?>
     </table>
 
