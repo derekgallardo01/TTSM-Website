@@ -120,13 +120,16 @@ if(isset($_GET["gg"]) || 1){
                        // print_r($user_info);
                         $user_email = isset($user_info->user_email)?$user_info->user_email:'';
                         
-                        $phone  = get_user_meta($id, 'mobile_phone_number', true);
+                        $first_name = get_user_meta($id, 'first_name', true);
+                        $last_name = get_user_meta($id, 'last_name', true);
+                        $phone  = get_user_meta($id,'phone',true);
+
                         //echo $therapist;
                         //echo '<tr><td><span class="simpletext">'.str_replace('View address','',$therapist).'</span></td><td><span class="simpletext">' . $user_email . '</span></td><td><span class="simpletext">' . $phone . '</span></td><td>';
                         
                         if( isset($status_accept[$id]) ) {
 
-                            echo 'Accepted Therapist : '.str_replace('View address','',$therapist).'<br /> ';
+                            echo 'Accepted Therapist : '.$first_name.' '. $last_name.' '.$phone.'<br /> ';
                             //echo '<span class="selectedstat">Accepted</span>';
                         } else {
                             //echo '<span class="simplestat">Pending</span>';
