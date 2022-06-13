@@ -569,7 +569,7 @@ a.btn-crimson:hover, .button:hover, .btn:hover { background: #E7330A; border-col
 
 #footer { color: #222; }
 
-#footer-second { color: #222; background: url(https://www.healthfairsplus.com/assets/images/benefits-of-orporate-img.jpg); }
+#footer-second { color: #222; background: url("http://ahhthatsthespotmassage.com/wp-content/uploads/2022/06/opacity-bg.jpg"); background-size: cover !important;}
 
 #footer a {color:#046185;}
 
@@ -583,8 +583,8 @@ a.btn-crimson:hover, .button:hover, .btn:hover { background: #E7330A; border-col
 
 #footer .wrapper-main-footer { background: #99CEE5;padding: 10px 0; }
 
-#footer-second .wrapper-main-footer-second { opacity: 0.9; background: white; padding: 10px 0; }
-
+/* #footer-second .wrapper-main-footer-second { opacity: 0.9; background: white; padding: 10px 0; }
+*/
 #footer .wrapper-copyright .wrapper, #footer .wrapper-copyright .wrapper a {color:#fff;}
 
 
