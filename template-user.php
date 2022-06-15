@@ -11,7 +11,7 @@ if(!is_user_logged_in()) {
 
 }
 
-if(current_user_can('van_user')) {
+if(current_user_can('van_user') || current_user_can('client')) {
     get_header('2');
 } else {
     get_header();
@@ -20,19 +20,21 @@ if(current_user_can('van_user')) {
 $active_sidebar_left = is_active_sidebar('sidebar-left-user');
 $active_sidebar_van = is_active_sidebar('sidebar-left-van-user');
 $active_van_user = current_user_can('van_user');
+$active_client = current_user_can('client');
 $content_class = $active_sidebar_left ? 'content-width' : 'full-width';
 $wclass = $active_sidebar_left ? 'wrapper-sleft': '';
-$content_id= $active_van_user ? "wrapper-content-2" : 'wrapper-content';
+$content_id= ( $active_van_user ) ? "wrapper-content-2" : (( $active_client ) ? "wrapper-content-2" : "wrapper-content" );
+
  ?>
 
     <div id="<?php echo $content_id;?>" class="<?php echo $wclass;?>">
         <div class="total-width">
-            <?php if($active_sidebar_left && !$active_van_user): ?>
+            <?php if($active_sidebar_left && !$active_van_user && !$active_client): ?>
                 <div id="sidebar-left-therapist" class="sidebar sidebar-left">
                     <?php dynamic_sidebar('sidebar-left-user'); ?>
                 </div>
             <?php endif; ?>
-                    <?php if($active_sidebar_left && $active_van_user): ?>
+                    <?php if($active_sidebar_left && $active_van_user || $active_client): ?>
                 <div id="sidebar-left-therapist" class="sidebar sidebar-left">
                     <?php dynamic_sidebar('sidebar-left-van-user'); ?>
                 </div>
